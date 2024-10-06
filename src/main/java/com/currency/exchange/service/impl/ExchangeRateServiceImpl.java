@@ -91,10 +91,16 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         return resp;
     }
 
+    /**
+     * To get exchange rates from third party API.
+     *
+     * @param exchangeRateRequest - Request
+     * @return ExchangeRateResponse
+     */
     @Cacheable(cacheNames = "exchangeRate",
             key = "#baseCurrency.concat('-').concat(#target)")
     private ExchangeRateResponse getExchangeRateResponse(
-            ExchangeRateRequest exchangeRateRequest) {
+            final ExchangeRateRequest exchangeRateRequest) {
         return exchangeRateClient.calculateExchangeRate(
                 exchangeRateRequest.getBaseCurrency(),
                 exchangeRateRequest.getTargetCurrency());
@@ -115,9 +121,13 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         double discountAmt = 0.0;
         for (Items item : exchangeRateReq.getItems()) {
             if (item.getCategory().equals(Category.GROCERIES)) {
-                groceriesTotal += (item.getItemPrice() * item.getQuantity());
+                groceriesTotal += (item.getItemPrice()
+                        *
+                        (item.getQuantity() == null ? 1 : item.getQuantity()));
             } else {
-                restTtl += (item.getItemPrice() * item.getQuantity());
+                restTtl += (item.getItemPrice()
+                        *
+                        (item.getQuantity() == null ? 1 : item.getQuantity()));
             }
         }
         if (restTtl != 0) {

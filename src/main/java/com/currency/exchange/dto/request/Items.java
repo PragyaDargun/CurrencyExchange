@@ -4,6 +4,7 @@ import com.currency.exchange.enums.Category;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Builder
 public class Items {
 
     /**
@@ -34,5 +36,6 @@ public class Items {
      */
     @Positive
     @Min(1)
-    private Integer quantity = 1;
+    private Integer quantity;
+
 }

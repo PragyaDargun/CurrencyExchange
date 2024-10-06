@@ -4,7 +4,9 @@ import com.currency.exchange.dto.request.ExchangeRateRequest;
 import com.currency.exchange.dto.response.ExchangeRateResponse;
 import com.currency.exchange.service.ExchangeRateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,12 +29,17 @@ public class CurrencyExchangeController {
      * @param exchangeRateRequest - Request
      * @return ExchangeRateResponse Response
      */
-    @PostMapping(value = "/calculate",
+    @PostMapping(value = "/api/calculate",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ExchangeRateResponse calculate(
+    public ResponseEntity<ExchangeRateResponse> calculate(
             @RequestBody final ExchangeRateRequest exchangeRateRequest) {
-        return exchangeRateService.calculateExchangeRate(exchangeRateRequest);
+        ExchangeRateResponse response =
+                exchangeRateService.calculateExchangeRate(exchangeRateRequest);
+        if (response != null && response.getErrorType() != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
