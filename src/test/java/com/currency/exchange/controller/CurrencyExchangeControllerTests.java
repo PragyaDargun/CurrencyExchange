@@ -34,7 +34,7 @@ public class CurrencyExchangeControllerTests {
 
     @Autowired
     private ObjectMapper objectMapper;
-    
+
     @Test
     @WithMockUser(username = "user", password = "password")
     public void testCalculate_Success() throws Exception {

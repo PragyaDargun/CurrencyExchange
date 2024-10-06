@@ -22,27 +22,31 @@ public class SecurityConfig {
 
     /**
      * Configuration.
+     *
      * @param http
      * @return SecurityFilterChain
+     *
      * @throws Exception
      */
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http)
             throws Exception {
         http
-                .authorizeHttpRequests(authorize -> authorize
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(
+                                        "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                                 .anyRequest().authenticated()
+
                         // All requests require authentication
                 )
                 .httpBasic(Customizer.withDefaults())
                 .exceptionHandling(
                         exceptionHandling ->
                                 exceptionHandling.authenticationEntryPoint(
-                                ((request, response, authException) -> {
-                                    response.sendError(
-                                            HttpStatus.UNAUTHORIZED.value(),
-                                            "Unauthorized");
-                                })));
+                                        ((request, response, authException) -> {
+                                            response.sendError(
+                                                    HttpStatus.UNAUTHORIZED.value(),
+                                                    "Unauthorized");
+                                        })));
 
         // Disable CSRF for APIs (optional)
         http.csrf(AbstractHttpConfigurer::disable);
@@ -52,6 +56,7 @@ public class SecurityConfig {
 
     /**
      * To manage user creds.
+     *
      * @param passwordEncoder - to encode password.
      * @return UserDetailsService
      */
@@ -71,6 +76,7 @@ public class SecurityConfig {
 
     /**
      * to encode password.
+     *
      * @return PasswordEncoder Bean.
      */
     @Bean
