@@ -1,5 +1,7 @@
 package com.currency.exchange.service.impl;
 
+import com.currency.exchange.discount.Discount;
+import com.currency.exchange.discount.DiscountFactory;
 import com.currency.exchange.dto.request.ExchangeRateRequest;
 import com.currency.exchange.dto.request.Items;
 import com.currency.exchange.dto.response.ExchangeRateResponse;
@@ -10,7 +12,6 @@ import com.currency.exchange.service.ExchangeRateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,56 +23,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExchangeRateServiceImpl implements ExchangeRateService {
 
-
-    /**
-     * Employee discount.
-     */
-    @Value("${currency.exchange.employee.discount}")
-    private int employeeDiscount;
-    /**
-     * Member discount.
-     */
-    @Value("${currency.exchange.member.discount}")
-    private int memberDiscount;
-
-    /**
-     * Tenure In Months.
-     */
-    @Value("${currency.exchange.customer.tenure.minimum.months}")
-    private int tenureInMonths;
-
-    /**
-     * Tenure Discount.
-     */
-    @Value("${currency.exchange.customer.tenure.discount}")
-    private int tenureDiscount;
-
-    /**
-     * Discount on every bill after a specific amount.
-     */
-    @Value("${currency.exchange.discount.eligible.minimum.bill.amount}")
-    private int billAmountDiscount;
-    /**
-     * bill discount.
-     */
-    @Value("${currency.exchange.discount.eligible.minimum.bill}")
-    private int minimumBillDiscount;
-
-    /**
-     * DIVIDEND.
-     */
-    private static final int DIVIDEND = 100;
-
     /**
      * Logger.
      */
-    private Logger log = LoggerFactory.getLogger(ExchangeRateServiceImpl.class);
+    private final Logger log =
+            LoggerFactory.getLogger(ExchangeRateServiceImpl.class);
 
     /**
      * ExchangeRateClient Object.
      */
     @Autowired
     private ExchangeRateClient exchangeRateClient;
+
+    /**
+     * DiscountFactory Object.
+     */
+    @Autowired
+    private DiscountFactory discountFactory;
 
     /**
      * To convert the total bill amount in desired currency.
@@ -118,7 +86,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                 + "Calculating the total Bill amount.");
         double groceriesTotal = 0.0;
         double restTtl = 0.0;
-        double discountAmt = 0.0;
+        double finalAmount = 0.0;
         for (Items item : exchangeRateReq.getItems()) {
             if (item.getCategory().equals(Category.GROCERIES)) {
                 groceriesTotal += (item.getItemPrice()
@@ -129,6 +97,8 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                         *
                         (item.getQuantity() == null ? 1 : item.getQuantity()));
             }
+            log.info(" groceriesTotal-->" + groceriesTotal);
+            log.info(" restTtl-->" + restTtl);
         }
         if (restTtl != 0) {
             CustomerType customerType = exchangeRateReq.getCustomerType();
@@ -136,17 +106,19 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                     exchangeRateReq.getCustomerTenureInMonths() == null
                             ? 0 : exchangeRateReq.getCustomerTenureInMonths();
 
-            if (CustomerType.EMPLOYEE.equals(customerType)) {
-                discountAmt = restTtl * ((double) employeeDiscount / DIVIDEND);
-            } else if (CustomerType.MEMBER.equals(customerType)) {
-                discountAmt =
-                        restTtl * ((double) memberDiscount / DIVIDEND);
-            } else if (customerTenure >= tenureInMonths
-                    || (restTtl + groceriesTotal >= billAmountDiscount)) {
-                discountAmt = restTtl * ((double) tenureDiscount / DIVIDEND);
+            // Get the appropriate discount based on customer type, tenure, and total amount
+            Discount discount =
+                    discountFactory.getDiscount(customerType, customerTenure,
+                            restTtl);
+
+            // Apply the discount if there is one
+            if (discount != null) {
+                finalAmount = discount.applyDiscount(restTtl);
+            } else {
+                finalAmount = restTtl; // No discount applies
             }
         }
-        return (restTtl - discountAmt) + groceriesTotal;
+        return (finalAmount + groceriesTotal);
     }
 
     /**
