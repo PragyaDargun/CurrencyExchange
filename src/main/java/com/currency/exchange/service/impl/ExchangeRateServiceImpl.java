@@ -97,8 +97,6 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                         *
                         (item.getQuantity() == null ? 1 : item.getQuantity()));
             }
-            log.info(" groceriesTotal-->" + groceriesTotal);
-            log.info(" restTtl-->" + restTtl);
         }
         if (restTtl != 0) {
             CustomerType customerType = exchangeRateReq.getCustomerType();
