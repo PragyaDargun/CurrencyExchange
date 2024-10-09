@@ -142,5 +142,28 @@ mvn checkstyle:check spotbugs:check
 mvn test jacoco:report
 ```
 
+### Project Structure
+```json
+├───src
+│   ├───main
+│   │   ├───java
+│   │   │   └───com
+│   │   │       └───currency
+│   │   │           └───exchange
+│   │   │               ├───config
+│   │   │               ├───constant
+│   │   │               ├───controller
+│   │   │               ├───discount
+│   │   │               ├───dto
+│   │   │               │   ├───request
+│   │   │               │   └───response
+│   │   │               ├───enums
+│   │   │               ├───exception
+│   │   │               ├───integration
+│   │   │               │   └───client
+│   │   │               └───service
+│   │   │                   └───impl
+│   │   └───resources
+```
 
 
