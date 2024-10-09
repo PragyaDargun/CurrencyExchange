@@ -39,8 +39,9 @@ In this project, we have used the Factory Pattern to create different types of d
 ## Example Scenarios:
 1. Employee purchasing $150 worth of items ($50 groceries, $100 non-groceries) in USD as base currency and target currency is EUR:
 
-    Eligible Discount: 30% Employee Discount on non-grocery items.  
-   **Calculation**:  
+    Eligible Percentage Discount: 30% Employee Discount on non-grocery items.  
+   
+    **Calculation**:  
    - Non-grocery items ($100) receive 30% discount: $30 discount.
    Groceries ($50) are excluded from the percentage discount.
      - Total Bill: $150 - $30 = $120.
@@ -51,7 +52,7 @@ In this project, we have used the Factory Pattern to create different types of d
 
 2. Member purchasing $220 worth of items ($150 groceries, $70 non-groceries):
 
-    Eligible Discount: 10% Member Discount on non-grocery items.
+    Eligible Percentage Discount: 10% Member Discount on non-grocery items.
 
     **Calculation**:
     - Non-grocery items ($70) receive 10% discount: $7 discount.
@@ -64,7 +65,7 @@ In this project, we have used the Factory Pattern to create different types of d
 
 3. New customer purchasing $220 worth of items ($150 groceries, $70 non-groceries):
 
-   Eligible Discount: None.
+   Eligible Percentage Discount: None.
 
    **Calculation**:
     - Not eligible for any percentage discount.
@@ -94,15 +95,13 @@ By default, the following credentials are available:
   "customerType": "MEMBER",
   "customerTenureInMonths": "12",
   "items": [{
-    "category": "FASHION",
-    "itemId": 1,
+    "category": "2",
     "itemName": "XYZ",
     "itemPrice": 10.0,
     "quantity": 2
   },
     {
       "categoryId": "1",
-      "itemId": 2,
       "itemName": "XYZ",
       "itemPrice": 10.0
     }]
