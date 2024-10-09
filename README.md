@@ -46,12 +46,12 @@ In this project, we have used the Factory Pattern to create different types of d
      - Total Bill: $150 - $30 = $120.
      - Bill-based discount for spending over $100: $5.
      - Final Total: $115.
-     - After conversion to EUR the bill amount: 104.79 EUR 
+     - ConversionRate from USD TO EUR is 0.9113, after conversion to EUR the bill amount: 104.79 EUR 
 
 
 2. Member purchasing $220 worth of items ($150 groceries, $70 non-groceries):
 
-    Eligible Discount: 10% Affiliate Discount on non-grocery items.
+    Eligible Discount: 10% Member Discount on non-grocery items.
 
     **Calculation**:
     - Non-grocery items ($70) receive 10% discount: $7 discount.
@@ -59,7 +59,19 @@ In this project, we have used the Factory Pattern to create different types of d
       - Total Bill: $220 - $7 = $213.
       - Bill-based discount for spending over $200: $10.
       - Final Total: $203.
-      - After conversion to EUR the bill amount: 104.79 EUR
+      - ConversionRate from USD TO EUR is 0.9113, after conversion to EUR the bill amount: 184.99 EUR
+
+
+3. New customer purchasing $220 worth of items ($150 groceries, $70 non-groceries):
+
+   Eligible Discount: None.
+
+   **Calculation**:
+    - Not eligible for any percentage discount.
+        - Total Bill: $220.
+        - Bill-based discount for spending over $200: $10.
+        - Final Total: $210.
+        - ConversionRate from USD TO EUR is 0.9113, after conversion to EUR the bill amount: 191.37 EUR
 
 ## Getting Started
 To begin using the Attributes API, you’ll need to follow these steps:
@@ -89,7 +101,7 @@ By default, the following credentials are available:
     "quantity": 2
   },
     {
-      "category": "GROCERIES",
+      "categoryId": "1",
       "itemId": 2,
       "itemName": "XYZ",
       "itemPrice": 10.0
