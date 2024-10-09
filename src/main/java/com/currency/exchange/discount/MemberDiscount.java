@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
  * Member discount of 10%.
  */
 @Service(MemberDiscount.BEAN_ID)
-public class MemberDiscount implements Discount {
+public class MemberDiscount implements PercentageDiscount {
 
     /**
      * Bean ID.

@@ -45,7 +45,7 @@ public class CurrencyExchangeControllerTests {
         request.setCustomerType(CustomerType.MEMBER);
         request.setCustomerTenureInMonths(1);
         request.setItems(List.of(Items.builder().itemPrice(10.0).itemName("XYZ")
-                .category(
+                .categoryId(
                         Category.GROCERIES).quantity(1).build()));
         ExchangeRateResponse response = ExchangeRateResponse.builder().build();
         Mockito.when(exchangeRateService.calculateExchangeRate(request))

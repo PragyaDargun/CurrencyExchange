@@ -1,7 +1,8 @@
 package com.currency.exchange.service.impl;
 
-import com.currency.exchange.discount.Discount;
+import com.currency.exchange.discount.PercentageDiscount;
 import com.currency.exchange.discount.DiscountFactory;
+import com.currency.exchange.discount.ValueBaseDiscount;
 import com.currency.exchange.dto.request.ExchangeRateRequest;
 import com.currency.exchange.dto.request.Items;
 import com.currency.exchange.dto.response.ExchangeRateResponse;
@@ -40,6 +41,12 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
      */
     @Autowired
     private DiscountFactory discountFactory;
+
+    /**
+     * Value based discount.
+     */
+    @Autowired
+    private ValueBaseDiscount valueBaseDiscount;
 
     /**
      * To convert the total bill amount in desired currency.
@@ -88,7 +95,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         double restTtl = 0.0;
         double finalAmount = 0.0;
         for (Items item : exchangeRateReq.getItems()) {
-            if (item.getCategory().equals(Category.GROCERIES)) {
+            if (item.getCategoryId() == (Category.GROCERIES.getId())) {
                 groceriesTotal += (item.getItemPrice()
                         *
                         (item.getQuantity() == null ? 1 : item.getQuantity()));
@@ -105,18 +112,16 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                             ? 0 : exchangeRateReq.getCustomerTenureInMonths();
 
             // Get the appropriate discount based on customer type, tenure, and total amount
-            Discount discount =
+            PercentageDiscount discount =
                     discountFactory.getDiscount(customerType, customerTenure,
                             restTtl);
 
-            // Apply the discount if there is one
-            if (discount != null) {
-                finalAmount = discount.applyDiscount(restTtl);
-            } else {
-                finalAmount = restTtl; // No discount applies
-            }
+            // Apply the discount if there is one else No discount applies
+            finalAmount = discount != null ? discount.applyDiscount(restTtl) :
+                    restTtl;
         }
-        return (finalAmount + groceriesTotal);
+        //Applying value based discount after percentage discount.
+        return valueBaseDiscount.applyDiscount(finalAmount + groceriesTotal);
     }
 
     /**

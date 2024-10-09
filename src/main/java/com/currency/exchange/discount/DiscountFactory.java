@@ -16,7 +16,7 @@ public class DiscountFactory {
     /**
      * Contain Instance of Discount class with BeanId.
      */
-    private final Map<String, Discount> discount;
+    private final Map<String, PercentageDiscount> discount;
 
     /**
      * Discount Factory method.
@@ -26,7 +26,7 @@ public class DiscountFactory {
      * @param totalAmount - amount
      * @return Discount Obj.
      */
-    public Discount getDiscount(CustomerType customerType,
+    public PercentageDiscount getDiscount(CustomerType customerType,
             int customerTenureInMonths, Double totalAmount) {
         if (CustomerType.EMPLOYEE.equals(customerType)) {
             return discount.get("EmployeeDiscount");
@@ -34,8 +34,6 @@ public class DiscountFactory {
             return discount.get("MemberDiscount");
         } else if (customerTenureInMonths >= 24) {
             return discount.get("LoyalCustomerDiscount");
-        } else if (totalAmount >= 100) {
-            return discount.get("ValueBaseDiscount");
         }
         return null;  // No discount
     }

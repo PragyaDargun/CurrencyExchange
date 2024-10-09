@@ -1,13 +1,20 @@
 package com.currency.exchange.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 /**
  * Item Categories.
  */
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public enum Category {
     /**
      * Grocery.
      */
-    GROCERIES,
+    GROCERIES(1),
     /**
      * Fashion.
      */
@@ -28,5 +35,6 @@ public enum Category {
      * Fashion.
      */
     FASHION_AND_ACCESSORIES;
+    int id;
 
 }

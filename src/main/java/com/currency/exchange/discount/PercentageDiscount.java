@@ -3,7 +3,7 @@ package com.currency.exchange.discount;
 /**
  * Discount Parent Class.
  */
-public interface Discount {
+public interface PercentageDiscount {
 
     /**
      * Abstract method to calculate the discount

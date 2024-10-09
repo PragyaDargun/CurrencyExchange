@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
  * Value-based discount: 5% if the total is greater than 99.
  */
 @Service(ValueBaseDiscount.BEAN_ID)
-public class ValueBaseDiscount implements Discount{
+public class ValueBaseDiscount implements PercentageDiscount {
 
     /**
      * Bean ID.
@@ -38,8 +38,10 @@ public class ValueBaseDiscount implements Discount{
      */
     @Override
     public Double applyDiscount(Double originalAmount) {
-        if (originalAmount >= minimumBillAmount) {
-            double discount = originalAmount * valueBasedDiscount/DIVIDEND;
+        final double count = Math.floor(
+                originalAmount / minimumBillAmount);
+        if (count >= 1) {
+            double discount = valueBasedDiscount * count;
             return (originalAmount - discount);
         }
         return originalAmount;

@@ -1,6 +1,5 @@
 package com.currency.exchange.dto.request;
 
-import com.currency.exchange.enums.Category;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -19,8 +18,8 @@ public class Items {
     /**
      * Category of Item.
      */
-    @NotBlank(message = "category is required")
-    private Category category;
+    @NotBlank(message = "categoryId is required")
+    private int categoryId;
     /**
      * Item Name.
      */

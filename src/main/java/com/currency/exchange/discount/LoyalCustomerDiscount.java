@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
  *   5% for tenure of 24 months or more.
  */
 @Service(LoyalCustomerDiscount.BEAN_ID)
-public class LoyalCustomerDiscount implements Discount {
+public class LoyalCustomerDiscount implements PercentageDiscount {
 
     /**
      * Bean ID.
