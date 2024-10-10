@@ -1,6 +1,6 @@
 # Currency Exchange
 
-This microservice accepts bill details including items, their categories, total amount, user type, customer tenure, original currency, and target currency and 
+This microservice accepts original currency, target currency, list of items (items, their categories, price and quantity), and userId and 
 then calculates the net payable amount in the specified target currency after applying applicable discounts and currency conversion.
 
 ## API Usage Guide
