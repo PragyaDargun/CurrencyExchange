@@ -9,6 +9,10 @@ The API is secured using HTTP Basic Authentication and is designed for two prima
 1. **Retrieve Exchange Rates**: This feature allows users to obtain the real-time exchange rates, which is required when user want to calculate the total bill amount.
 2. **Calculate total bill amount**: Using exchange rates the api calculate the total bill amount in desired currency.
 
+**This is a UML diagram for the architecture of the system**:
+
+![UML Diagram](https://github.com/PragyaDargun/CurrencyExchange/blob/master/CurrencyExchangeUML.png)
+
 ## Use Case: 
 ### Discount Calculation
 The application supports various discount rules for users based on their relationship with the store and their purchase history. The following discounts are applied based on the user's eligibility:
