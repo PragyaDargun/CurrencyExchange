@@ -5,11 +5,13 @@ import com.currency.exchange.discount.DiscountFactory;
 import com.currency.exchange.discount.ValueBaseDiscount;
 import com.currency.exchange.dto.request.ExchangeRateRequest;
 import com.currency.exchange.dto.request.Items;
+import com.currency.exchange.dto.request.User;
 import com.currency.exchange.dto.response.ExchangeRateResponse;
 import com.currency.exchange.enums.Category;
 import com.currency.exchange.enums.CustomerType;
 import com.currency.exchange.integration.client.ExchangeRateClient;
 import com.currency.exchange.service.ExchangeRateService;
+import com.currency.exchange.util.UserDetailsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,12 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
      */
     @Autowired
     private ExchangeRateClient exchangeRateClient;
+
+    /**
+     * UserDetailsUtil Instance.
+     */
+    @Autowired
+    private UserDetailsUtil userDetailsUtil;
 
     /**
      * DiscountFactory Object.
@@ -106,14 +114,16 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
             }
         }
         if (restTtl != 0) {
-            CustomerType customerType = exchangeRateReq.getCustomerType();
-            int customerTenure =
-                    exchangeRateReq.getCustomerTenureInMonths() == null
-                            ? 0 : exchangeRateReq.getCustomerTenureInMonths();
+            User user = userDetailsUtil.getUserDetails(
+                    exchangeRateReq.getUser().getUserId());
+            CustomerType customerType = user.getCustomerType();
+            boolean isCustomerForMoreThanTwoYears =
+                    userDetailsUtil.isCustomerForMoreThanTwoYears(user);
 
             // Get the appropriate discount based on customer type, tenure, and total amount
             PercentageDiscount discount =
-                    discountFactory.getDiscount(customerType, customerTenure,
+                    discountFactory.getDiscount(customerType,
+                            isCustomerForMoreThanTwoYears,
                             restTtl);
 
             // Apply the discount if there is one else No discount applies

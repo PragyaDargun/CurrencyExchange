@@ -109,33 +109,34 @@ By default, the following credentials are available:
 
 ```json
 {
-  "baseCurrency": "GBP",
+  "baseCurrency": "USD",
   "targetCurrency": "EUR",
-  "customerType": "MEMBER",
-  "customerTenureInMonths": "12",
-  "items": [{
-    "category": "2",
-    "itemName": "XYZ",
-    "itemPrice": 10.0,
-    "quantity": 2
+  "user": {
+    "userId": "1"
   },
+  "items": [
+    {
+      "categoryId": "2",
+      "itemName": "XYZ",
+      "itemPrice": 100.0,
+      "quantity": 1
+    },
     {
       "categoryId": "1",
       "itemName": "XYZ",
-      "itemPrice": 10.0
-    }]
-
+      "itemPrice": 150.0
+    }
+  ]
 }
 ```
 - **Response Body**: Success Response
 ```json
 {
   "result": "success",
-  "base_code": "GBP",
+  "base_code": "USD",
   "target_code": "EUR",
-  "conversion_rate": 1.194,
-  "conversion_result": 33.432,
-  "error-type": null
+  "conversion_rate": 0.9135,
+  "conversion_result": 191.835
 }
 ```
 

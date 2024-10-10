@@ -22,17 +22,17 @@ public class DiscountFactory {
      * Discount Factory method.
      *
      * @param customerType - Customer Type
-     * @param customerTenureInMonths - tenure in months
+     * @param isCustomerForMoreThanTwoYears - tenure in months
      * @param totalAmount - amount
      * @return Discount Obj.
      */
     public PercentageDiscount getDiscount(CustomerType customerType,
-            int customerTenureInMonths, Double totalAmount) {
+            boolean isCustomerForMoreThanTwoYears, Double totalAmount) {
         if (CustomerType.EMPLOYEE.equals(customerType)) {
             return discount.get("EmployeeDiscount");
         } else if (CustomerType.MEMBER.equals(customerType)) {
             return discount.get("MemberDiscount");
-        } else if (customerTenureInMonths >= 24) {
+        } else if (isCustomerForMoreThanTwoYears) {
             return discount.get("LoyalCustomerDiscount");
         }
         return null;  // No discount

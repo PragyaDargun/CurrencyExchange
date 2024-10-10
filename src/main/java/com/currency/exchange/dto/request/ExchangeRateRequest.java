@@ -1,10 +1,8 @@
 package com.currency.exchange.dto.request;
 
-import com.currency.exchange.enums.CustomerType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,15 +34,10 @@ public class ExchangeRateRequest {
     private String targetCurrency;
 
     /**
-     * Customer Type.
+     * User.
      */
-    private CustomerType customerType = CustomerType.NONE;
-
-    /**
-     * Tenure of customer.
-     */
-    @Positive
-    private Integer customerTenureInMonths;
+    @NotNull
+    private User user;
 
     /**
      * Items purchased.
@@ -56,19 +49,16 @@ public class ExchangeRateRequest {
      * Constructor for defensive copying.
      * @param fromCurrency baseCurrency
      * @param toCurrency targetCurrency
-     * @param customer customerType
-     * @param customerTenure customerTenureInMonths
+     * @param userObj User Obj
      * @param itemsList List of items
      */
     public ExchangeRateRequest(final String fromCurrency,
             final String toCurrency,
-            final CustomerType customer,
-            final Integer customerTenure,
+            final User userObj,
             final List<Items> itemsList) {
         this.baseCurrency = fromCurrency;
         this.targetCurrency = toCurrency;
-        this.customerType = customer;
-        this.customerTenureInMonths = customerTenure;
+        this.user = userObj;
         this.items = new ArrayList<>(itemsList);
     }
 
