@@ -18,23 +18,27 @@ public enum Category {
     /**
      * Fashion.
      */
-    FASHION,
+    FASHION(2),
     /**
      * Electronics.
      */
-    ELECTRONICS,
+    ELECTRONICS(3),
     /**
      * Entertainment.
      */
-    ENTERTAINMENT,
+    ENTERTAINMENT(4),
     /**
      * House and Garden.
      */
-    HOME_AND_GARDEN,
+    HOME_AND_GARDEN(5),
     /**
      * Fashion.
      */
-    FASHION_AND_ACCESSORIES;
+    FASHION_AND_ACCESSORIES(6);
+
+    /**
+     * CategoryId.
+     */
     int id;
 
 }

@@ -74,6 +74,21 @@ In this project, we have used the Factory Pattern to create different types of d
         - Final Total: $210.
         - ConversionRate from USD TO EUR is 0.9113, after conversion to EUR the bill amount: 191.37 EUR
 
+## Tech Stack
+
+- **Java 17**: Used as the main programming language, taking advantage of new language features and enhancements.
+- **Spring Boot 3**: Framework for building microservices, providing features like dependency injection, data access, and web MVC.
+- **In-memory cache**: Caching solution to improve performance by reducing third party API calls.
+- **Basic Authentication**: Simple security mechanism for protecting endpoints.
+- **Lombok**: Reduces boilerplate code by generating common methods such as getters, setters, constructors, etc.
+- **Swagger**: Integrated for API documentation, making it easier to interact with REST endpoints.
+- **OpenFeign**: Declarative HTTP client for easier API integration between microservices.
+- **Mockito**: Mocking framework for unit testing, allowing testing in isolation by mocking dependencies.
+- **Checkstyle**: Code quality tool for enforcing coding standards and best practices.
+- **Jacoco**: Code coverage tool used to measure how much of the code is tested by unit tests.
+- **SpotBugs**: Static analysis tool to find bugs in Java code.
+
+
 ## Getting Started
 To begin using the Attributes API, you’ll need to follow these steps:
        
@@ -126,20 +141,6 @@ By default, the following credentials are available:
   "result": "error",
   "error-type": "unknown-code"
 }
-``` 
-## Scripts
-
-- **To Build Project**:
-```json
-mvn clean install 
-``` 
-- **To Run Static Code Analysis**: 
-```json
-mvn checkstyle:check spotbugs:check 
-```
-- **To Run Unit Tests and Generate Code Coverage**: 
-```json
-mvn test jacoco:report
 ```
 
 ### Project Structure
@@ -165,5 +166,18 @@ mvn test jacoco:report
 │   │   │                   └───impl
 │   │   └───resources
 ```
+## Scripts
 
+- **To Build Project**:
+```json
+mvn clean install 
+``` 
+- **To Run Static Code Analysis**:
+```json
+mvn checkstyle:check spotbugs:check 
+```
+- **To Run Unit Tests and Generate Code Coverage**:
+```json
+mvn test jacoco:report
+```
 
